@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -13,16 +14,21 @@ func main() {
 	var filename = flag.String("file", "", "Name of file to truncate.")
 	flag.Parse()
 
+	var dat []byte
+	var err error
 	if *filename == "" {
-		fmt.Printf("%v", *filename)
-		flag.PrintDefaults()
-		os.Exit(1)
+		dat, err = ioutil.ReadAll(bufio.NewReader(os.Stdin))
+		if err != nil {
+			panic(err)
+		}
+	} else {
+		dat, err = ioutil.ReadFile(*filename)
+		if err != nil {
+			panic(err)
+		}
 	}
 
-	dat, err := ioutil.ReadFile(*filename)
-	if err != nil {
-		panic(err)
-	}
+
 
 	lines := strings.Split(string(dat), "\n")
 	for _, line := range lines {
