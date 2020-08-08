@@ -18,17 +18,13 @@ func main() {
 	var err error
 	if *filename == "" {
 		dat, err = ioutil.ReadAll(bufio.NewReader(os.Stdin))
-		if err != nil {
-			panic(err)
-		}
 	} else {
 		dat, err = ioutil.ReadFile(*filename)
-		if err != nil {
-			panic(err)
-		}
 	}
 
-
+	if err != nil {
+		panic(err)
+	}
 
 	lines := strings.Split(string(dat), "\n")
 	for _, line := range lines {
